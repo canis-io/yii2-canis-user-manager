@@ -68,6 +68,27 @@ class ManageController
         Yii::$app->response->view = 'security';
     }
 
+
+    public function actionRevokeDevice()
+    {
+        if (!isset(Yii::$app->classes['UserDevice'])) {
+            throw new \yii\web\BadRequestHttpException("No User Device Model");
+        }
+        $userDeviceClass = Yii::$app->classes['UserDevice'];
+        if (empty($_GET['id']) || !($device = $userDeviceClass::find()->where(['user_id' => Yii::$app->user->identity->id, 'id' => $_GET['id']])->one()) || empty($device)) {
+            throw new \yii\web\NotFoundHttpException("Device not found!");
+        }
+
+        Yii::$app->response->refresh = true;
+        if ($device->delete()) {
+            Yii::$app->response->task = 'message';
+            Yii::$app->response->success = 'Device was logged off!';
+        } else {
+            Yii::$app->response->task = 'message';
+            Yii::$app->response->error = 'Device could not be logged off';
+        }
+    }
+
     public function actionEnableTwoFactor()
     {
     	$userManager = Yii::$app->getModule('userManager');

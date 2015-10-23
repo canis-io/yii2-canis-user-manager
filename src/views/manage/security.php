@@ -38,8 +38,37 @@ if (($userDeviceClass = Yii::$app->classes['UserDevice'])) {
 	echo Html::beginTag('div', ['class' => 'list-group']);
 	$devices = $userDeviceClass::find()->where(['user_id' => Yii::$app->user->identity->id])->orderBy(['last_accessed' => SORT_DESC])->all();
 	foreach ($devices as $device) {
+		$extra = '';
+		$currentSession = false;
+		if ($device->last_session === Yii::$app->session->id) {
+			$currentSession = true;
+			$extra = ' ' . Html::tag('small', 'Current Session');
+		}
 		echo Html::beginTag('div', ['class' => 'list-group-item']);
-		echo Html::tag('h3', $device->userAgent->toString(), ['class' => 'list-group-item-heading', 'title' => $device->user_agent]);
+		if ($device->isActive) {
+			echo Html::tag('div', Html::tag('span', '', ['class' => 'fa fa-dot-circle-o']), ['class' => 'pull-right label label-success', 'title' => 'Active Session']);
+		} else {
+			echo Html::tag('div', Html::tag('span', '', ['class' => 'fa fa-circle-o']), ['class' => 'pull-right label label-default', 'title' => 'Not an Active Session']);
+		}
+		echo Html::tag('h3', $device->descriptor . $extra, ['class' => 'list-group-item-heading', 'title' => $device->last_accessed_ip]);
+		echo Html::beginTag('div', ['class' => 'row']);
+		echo Html::beginTag('div', ['class' => 'col-md-3']);
+		echo Html::tag('dt', 'Last Log-in');
+		echo Html::tag('dd', date("F j, Y", strtotime($device->last_accessed)));
+		echo Html::endTag('div');
+		echo Html::beginTag('div', ['class' => 'col-md-3']);
+		echo Html::tag('dt', 'First Log-in');
+		echo Html::tag('dd', date("F j, Y", strtotime($device->created)));
+		echo Html::endTag('div');
+
+		if (!$currentSession) {
+			echo Html::beginTag('div', ['class' => 'col-md-6']);
+			echo Html::a('Log Off', ['revoke-device', 'id' => $device->id], ['class' => 'btn btn-default pull-right', 'data-handler' => 'background']);
+			echo Html::endTag('div');
+		}
+
+		echo Html::endTag('div');
+		//echo Html::tag('div', $device->userAgent->toString(), ['class' => 'list-group-item-text', 'title' => $device->user_agent]);
 		echo Html::endTag('div');
 	}
 	if (empty($devices)) {
