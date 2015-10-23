@@ -14,6 +14,20 @@ use canis\caching\Cacher;
 class Module extends \yii\base\Module
 {
     public $friendlyUrl = 'user-manager';
+    protected $_twoFactorEnabled = true;
+
+    public function setTwoFactorEnabled($enabled)
+    {
+        $this->_twoFactorEnabled = $enabled;
+    }
+
+    public function getTwoFactorEnabled()
+    {
+        if (!$this->_twoFactorEnabled) {
+            return false;
+        }
+        return class_exists('RobThree\Auth\TwoFactorAuth');
+    }
 
     /**
      * @inheritdoc
@@ -29,7 +43,7 @@ class Module extends \yii\base\Module
             ], false);
         }
         $controllers = [
-            'profile' => controllers\ProfileController::className(),
+            'manage' => controllers\ManageController::className(),
             'admin' => controllers\AdminController::className()
         ];
         foreach ($controllers as $id => $controller) {
