@@ -39,7 +39,7 @@ if (($userDeviceClass = Yii::$app->classes['UserDevice'])) {
 	$devices = $userDeviceClass::find()->where(['user_id' => Yii::$app->user->identity->id])->orderBy(['last_accessed' => SORT_DESC])->all();
 	foreach ($devices as $device) {
 		echo Html::beginTag('div', ['class' => 'list-group-item']);
-		
+		echo Html::tag('h3', $device->userAgent->toString(), ['class' => 'list-group-item-heading', 'title' => $device->user_agent]);
 		echo Html::endTag('div');
 	}
 	if (empty($devices)) {
