@@ -58,6 +58,19 @@ class ManageController
     {
     	$userManager = Yii::$app->getModule('userManager');
         $this->params['title'] = 'Account Profile';
+        $this->params['model'] = $model = Yii::$app->user->identity;
+        $model->scenario = 'updateSelfProfile';
+        if (!empty($_POST)) {
+            $model->load($_POST);
+            if ($model->save()) {
+                Yii::$app->response->refresh = true;
+                Yii::$app->response->task = 'message';
+                Yii::$app->response->success = 'Profile was saved';
+            } else {
+                Yii::$app->response->task = 'message';
+                Yii::$app->response->error = 'Profile could not be saved';
+            }
+        }
         Yii::$app->response->view = 'profile';
     }
 
@@ -65,6 +78,19 @@ class ManageController
     {
     	$userManager = Yii::$app->getModule('userManager');
         $this->params['title'] = 'Security';
+        $this->params['model'] = $model = Yii::$app->user->identity;
+        $model->scenario = 'passwordChange';
+        if (!empty($_POST)) {
+            $model->load($_POST);
+            if ($model->save()) {
+                Yii::$app->response->refresh = true;
+                Yii::$app->response->task = 'message';
+                Yii::$app->response->success = 'Password was updated';
+            } else {
+                Yii::$app->response->task = 'message';
+                Yii::$app->response->error = 'Password could not be updated';
+            }
+        }
         Yii::$app->response->view = 'security';
     }
 

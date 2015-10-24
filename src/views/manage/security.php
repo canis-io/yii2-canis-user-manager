@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 $userManager = Yii::$app->getModule('userManager');
 canis\web\assetBundles\BootstrapSelectAsset::register($this);
 $this->title = $title;
@@ -8,7 +9,12 @@ echo Html::beginTag('div', ['class' => 'panel-heading']);
 echo Html::tag('h3', 'Password', ['class' => 'panel-title']);
 echo Html::endTag('div');
 echo Html::beginTag('div', ['class' => 'panel-body']);
-
+$form = ActiveForm::begin(['options' => ['autocomplete' => 'off']]);
+$model->password = '';
+echo $form->field($model, 'password')->passwordInput();
+echo $form->field($model, 'passwordConfirm')->passwordInput();
+echo Html::submitButton('Update Password', ['class' => 'btn btn-primary']);
+ActiveForm::end();
 echo Html::endTag('div');
 echo Html::endTag('div');
 
