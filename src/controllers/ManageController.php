@@ -37,10 +37,10 @@ class ManageController
             'url' => ['/'. $userManager->friendlyUrl .'/manage/security'],
             'label' => 'Account Security'
         ];
-        $menu['tokens'] = [
-            'url' => ['/'. $userManager->friendlyUrl .'/manage/token'],
-            'label' => 'Personal Access Tokens'
-        ];
+        // $menu['tokens'] = [
+        //     'url' => ['/'. $userManager->friendlyUrl .'/manage/token'],
+        //     'label' => 'Personal Access Tokens'
+        // ];
         return $menu;
     }
 

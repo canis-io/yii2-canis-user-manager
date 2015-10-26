@@ -13,7 +13,7 @@ use canis\caching\Cacher;
  */
 class Module extends \yii\base\Module
 {
-    public $friendlyUrl = 'user-manager';
+    public $friendlyUrl = 'user';
     protected $_twoFactorEnabled = true;
 
     public function setTwoFactorEnabled($enabled)
