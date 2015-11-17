@@ -8,10 +8,10 @@
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4.0",
-		"canis/yii2-canis-lib": "*",
-		"yiisoft/yii2-jui": "*",
-		"bower-asset/smart-time-ago": "*",
-		"bower-asset/canis-assets-lib": "*"
+		"yiisoft/yii2-jui": "2.0.*",
+		"bower-asset/smart-time-ago": "0.1.*",
+		"bower-asset/canis-assets-lib": "1.*",
+		"canis/yii2-canis-lib": "1.*"
 	},
 	"require-dev": {
 	},
