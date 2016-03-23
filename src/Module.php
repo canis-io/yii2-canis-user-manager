@@ -52,4 +52,16 @@ class Module extends \yii\base\Module
           }
         }
    }
+
+   public function isPasswordManagementAvailable()
+   {
+      if (Yii::$app->user->isGuest) {
+        return false;
+      }
+      $activeIdentity = Yii::$app->user->getIdentity()->getActiveIdentity();
+      if (!empty($activeIdentity)) {
+        return false;
+      }
+      return true;
+   }
 }

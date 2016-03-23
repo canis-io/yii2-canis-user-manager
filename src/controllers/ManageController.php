@@ -12,7 +12,7 @@ use Yii;
 use canis\web\unifiedMenu\Menu;
 use canis\userManager\models\EnableTwoFactorForm;
 
-class ManageController 
+class ManageController
 	extends BaseController
 	implements \canis\web\unifiedMenu\MenuProviderInterface
 {
@@ -77,8 +77,9 @@ class ManageController
     public function actionSecurity()
     {
     	$userManager = Yii::$app->getModule('userManager');
-        $this->params['title'] = 'Security';
-        $this->params['model'] = $model = Yii::$app->user->identity;
+      $this->params['title'] = 'Security';
+      $this->params['model'] = $model = Yii::$app->user->identity;
+      if ($userManager->isPasswordManagementAvailable()) {
         $model->scenario = 'passwordChange';
         if (!empty($_POST)) {
             $model->load($_POST);
@@ -91,7 +92,8 @@ class ManageController
                 Yii::$app->response->error = 'Password could not be updated';
             }
         }
-        Yii::$app->response->view = 'security';
+      }
+      Yii::$app->response->view = 'security';
     }
 
 
