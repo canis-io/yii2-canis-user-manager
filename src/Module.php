@@ -41,14 +41,15 @@ class Module extends \yii\base\Module
                 $this->friendlyUrl . '/<controller:[\w\-]+>' => $this->id . '/<controller>/index',
                 $this->friendlyUrl . '/<controller:[\w\-]+>/<action:[\w\-]+>' => $this->id . '/<controller>/<action>',
             ], false);
-        }
-        $controllers = [
-            'manage' => controllers\ManageController::className(),
-            'admin' => controllers\AdminController::className()
-        ];
-        foreach ($controllers as $id => $controller) {
-            if (!$controller) { continue; }
-            $this->controllerMap[$id] = $controller;
+
+          $controllers = [
+              'manage' => controllers\ManageController::className(),
+              'admin' => controllers\AdminController::className()
+          ];
+          foreach ($controllers as $id => $controller) {
+              if (!$controller) { continue; }
+              $this->controllerMap[$id] = $controller;
+          }
         }
    }
 }
